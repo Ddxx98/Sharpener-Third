@@ -1,15 +1,22 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
-
-app.use((req,res,next)=>{
-    console.log("From First Middleware")
-    next()
-})
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.use((req,res,next)=>{
     console.log("From Second Middleware")
-    res.send('<h1>Welcome to my page</h1>')
+    next()
+})
+
+app.get('/add-product',(req,res)=>{
+    res.send("<form action='/product' method='POST'><label>Name:<input type='text' name='username'></label><label>Size:<input type='number' name='size'></label><button type='submit'>Add</button></form>")
+})
+
+app.post('/product',(req,res)=>{
+    console.log(req.body)
+    res.redirect('/add-product')
 })
 
 app.listen(3000,()=>{
