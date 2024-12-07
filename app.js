@@ -1,25 +1,27 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+const path = require('path');
 
-const shop = require('./routes/shop')
-const admin = require('./routes/admin')
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const app = express()
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+const app = express();
 
-app.use((req,res,next)=>{
-    console.log("From First Middleware")
-    next()
-})
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const contactRoutes = require('./routes/contactus')
+const successRoutes = require('./routes/success')
 
-app.use('/admin',admin)
-app.use('/shop',shop)
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req,res)=>{
-    res.status(404).send('<h1>Page Not Found!!</h1>')
-})
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
+app.use('/contactus',contactRoutes)
+app.use('/success',successRoutes)
+
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+});
 
 app.listen(3000,()=>{
-    console.log("Server is running in 3000!!!")
-})
+    console.log("Server running in 3000")
+});
