@@ -1,22 +1,23 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const shop = require('./routes/shop')
+const admin = require('./routes/admin')
+
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use((req,res,next)=>{
-    console.log("From Second Middleware")
+    console.log("From First Middleware")
     next()
 })
 
-app.get('/add-product',(req,res)=>{
-    res.send("<form action='/product' method='POST'><label>Name:<input type='text' name='username'></label><label>Size:<input type='number' name='size'></label><button type='submit'>Add</button></form>")
-})
+app.use('/admin',admin)
+app.use('/shop',shop)
 
-app.post('/product',(req,res)=>{
-    console.log(req.body)
-    res.redirect('/add-product')
+app.use((req,res)=>{
+    res.status(404).send('<h1>Page Not Found!!</h1>')
 })
 
 app.listen(3000,()=>{
