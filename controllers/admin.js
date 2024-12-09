@@ -7,7 +7,8 @@ module.exports.getProductController = (req, res) => {
 }
 
 module.exports.postProductController = (req, res) => {
-    const product = new Product(req.body.title);
+    const price = Math.random() * 100;
+    const product = new Product(req.body.title,price);
     product.save();
     res.redirect('/');
 }
