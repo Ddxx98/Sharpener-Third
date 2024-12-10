@@ -8,8 +8,7 @@ module.exports.getProductController = (req, res) => {
 
 module.exports.postProductController = (req, res) => {
     const price = Math.random() * 100;
-    console.log(req.body.title, price)
-    const product = new Product(req.body.title, price);
+    const product = new Product(null,req.body.title, price);
     product.save().then(() => {
         res.redirect('/');
     }).catch(err => console.log(err));
