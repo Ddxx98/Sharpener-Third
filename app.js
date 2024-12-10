@@ -10,9 +10,12 @@ const shopRoutes = require('./routes/shop');
 const contactRoutes = require('./routes/contactus')
 const successRoutes = require('./routes/success')
 const errorController = require('./controllers/error')
+const db = require('./util/database')
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
+
+db.execute('')
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
