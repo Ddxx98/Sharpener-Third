@@ -8,16 +8,18 @@ module.exports.getProductController = (req, res) => {
 
 module.exports.postProductController = (req, res) => {
     const price = Math.random() * 100;
-    const product = new Product(req.body.title,price);
-    product.save();
-    res.redirect('/');
+    console.log(req.body.title, price)
+    const product = new Product(req.body.title, price);
+    product.save().then(() => {
+        res.redirect('/');
+    }).catch(err => console.log(err));
 }
 
 module.exports.getProductWithID = (req, res) => {
     const prodId = req.params.productId;
     console.log(prodId)
-    Product.findById(prodId, product => {
+    Product.findById(prodId).then((product) => {
         console.log(product)
         res.redirect('/no');
-    });
+    }).catch(err=>console.log(err));
 }

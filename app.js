@@ -15,8 +15,6 @@ const db = require('./util/database')
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-db.execute('')
-
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use('/contactus',contactRoutes)
